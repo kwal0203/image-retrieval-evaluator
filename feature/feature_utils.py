@@ -1,7 +1,12 @@
 import os
 import json
+import glob
+
+from PIL import Image
 from feature.feature_defintions.Histogram import Histogram
 
+# Constants
+HISTOGRAM_BINS = 256
 
 # Logging
 #
@@ -37,11 +42,11 @@ def json_read():
     with open(config_path) as f:
         config_file = json.load(f)
         input_path = config_file['data_path_base']
-        input_name = config_path['data_name']
+        input_name = config_file['data_name']
         output_path = config_file['index_path_base']
-        output_name = config_path['index_name']
+        output_name = config_file['index_name']
         feature_path = config_file['feature_path_base']
-        feature_name = config_path['feature_name']
+        feature_name = config_file['feature_name']
 
     config_dict = dict()
     config_dict['input'] = input_path + input_name
@@ -52,15 +57,51 @@ def json_read():
     return config_dict
 
 
-def feature_create():
-    print("feature_create() not implemented")
+# Instantiate object for requested feature
+def feature_object(config):
+    feature_type = config['feature_name']
+    feature_path = config['feature_path']
+
+    if "histogram" in feature_type:
+        _feature = Histogram(HISTOGRAM_BINS, feature_type)
+    else:
+        print("not histogram")
+        _feature = None
+
+    return _feature
 
 
+# Iterate through all images and write feature to CSV for each one
+def index_create(config, feature):
+    output_path = config['output']
+    data_path = config['input']
+    with open(output_path, "w") as f:
+        cnt = 0
+        for path in glob.glob(data_path + "*.jpg"):
+            img_id = path[path.rfind("/") + 1:]
+            image = Image.open(path)
+            feature_vector = feature.get_feature(image)
+            feature_vector = [str(f) for f in feature_vector]
+
+            # Write each feature to CSV
+            _feature = "{},{}\n".format(img_id[:-4], ",".join(feature_vector))
+            f.write(_feature)
+            cnt += 1
+            if cnt % 100 == 0:
+                print("Feature file: {}, idx: {}".format(img_id, cnt))
+
+
+# Feature index creation code entry point called from top level main function
 def feature_driver_run():
     # Read input JSON
     config = json_read()
 
     # Instantiate feature object
+    feature = feature_object(config)
 
-    # 3. Apply get_feature() to each image
-    # 4. Write each feature to CSV
+    # Determine image format in given directory
+
+    # Convert all images to JPG
+
+    # Apply get_feature() to each image
+    index_create(config, feature)

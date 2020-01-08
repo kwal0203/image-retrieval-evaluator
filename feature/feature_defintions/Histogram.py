@@ -18,10 +18,10 @@ class Histogram(FeatureBase):
     def get_rgb_feature(self):
         print("{} feature not implemented ".format(self.histogram_type))
 
-    def get_feature(self):
+    def get_feature(self, image):
         # Determine type of histogram
         # Create histogram for each channel of size "bins"
         # Concatenate channel histograms if necessary
         # Normalize concatenated feature
         # Return feature
-        return self.bins
+        return [1, 2, 3, 4, 5]
