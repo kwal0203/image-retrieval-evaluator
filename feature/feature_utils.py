@@ -30,7 +30,7 @@ from feature.feature_defintions.Histogram import Histogram
 
 def json_read():
     config_path = os.path.join(os.getcwd(), 'params.json')
-    assert(os.path.isfile(config_path))
+    assert (os.path.isfile(config_path))
     return config_path
 
 
@@ -43,7 +43,6 @@ def feature_driver_run():
     config = json_read()
 
     # Instantiate feature object
-
 
     # 3. Apply get_feature() to each image
     # 4. Write each feature to CSV
