@@ -1,4 +1,5 @@
 import os
+import json
 from feature.feature_defintions.Histogram import Histogram
 
 
@@ -28,10 +29,27 @@ from feature.feature_defintions.Histogram import Histogram
 # }
 
 
+# Parse config file
 def json_read():
     config_path = os.path.join(os.getcwd(), 'params.json')
     assert (os.path.isfile(config_path))
-    return config_path
+
+    with open(config_path) as f:
+        config_file = json.load(f)
+        input_path = config_file['data_path_base']
+        input_name = config_path['data_name']
+        output_path = config_file['index_path_base']
+        output_name = config_path['index_name']
+        feature_path = config_file['feature_path_base']
+        feature_name = config_path['feature_name']
+
+    config_dict = dict()
+    config_dict['input'] = input_path + input_name
+    config_dict['output'] = output_path + output_name
+    config_dict['feature_name'] = feature_name
+    config_dict['feature_path'] = feature_path
+
+    return config_dict
 
 
 def feature_create():
