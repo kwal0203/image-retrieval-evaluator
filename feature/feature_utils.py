@@ -6,36 +6,23 @@ from feature.feature_tests.test_functions import *
 
 import numpy as np
 
+# TODO:
+#   Logging
+
 # Constants
 HISTOGRAM_BINS = 256
 
-# Logging
+
+# Parse config JSON file. Config structure:
 #
-# Flow:
-#     1. Read input JSON
-#     2. Instantiate feature object
-#     3. Apply get_feature() to each image
-#     4. Write each feature to CSV
-#
-# Other:
-#     * Image/open mode on input JSON
-#     * Convert all images to same format so can use one image package
-#
-# Feature object:
-#     * Get feature method
-#
-# Input JSON structure:
 # {
-#     "data_path_base": "/home/kane/Datasets/",
-#     "data_name": "eurosat/small/",
-#     "index_path_base": "/home/kane/Indexes/",
-#     "index_name": "check250.csv",
-#     "feature_path": "/home/kane/Features/",
-#     "feature_name": "vae"
+#     "input_path_base": "path/to/input/data/",
+#     "input_name": "data_directory_name/",
+#     "output_path_base": "path/to/output/",
+#     "output_name": "name_of_index.csv",
+#     "feature_path": "path/to/model/", (leave blank for histogram features)
+#     "feature_name": "name_of_feature"
 # }
-
-
-# Parse config file
 def json_read():
     config_path = path.join(getcwd(), 'feature_params.json')
     assert(path.isfile(config_path)), "{} does not exist".format(config_path)

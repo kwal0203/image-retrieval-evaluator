@@ -4,7 +4,6 @@ from feature.feature_defintions.Base import FeatureBase
 from skimage.color import rgb2gray, rgb2hsv
 
 
-
 class Histogram(FeatureBase):
     def __init__(self, bins, histogram_type):
         super().__init__(histogram_type)
