@@ -41,7 +41,8 @@ class Histogram(FeatureBase):
         hue_histogram = hue_histogram[0] / 255.0
         value_histogram = value_histogram[0] / 255.0
 
-        # Concatenate Hue and Value histograms to get the HV histogram feature vector
+        # Concatenate Hue and Value histograms to get the HV histogram feature
+        # vector
         hv_feature = np.concatenate(hue_histogram, value_histogram, axis=None)
         # assert(sizeof(hv_feature) == 512)
 
@@ -60,27 +61,26 @@ class Histogram(FeatureBase):
         green_histogram = green_histogram[0] / 255.0
         blue_histogram = blue_histogram[0] / 255.0
 
-        # Concatenate Red, Green and Blue histograms to get the RGB histogram feature vector
+        # Concatenate Red, Green and Blue histograms to get the RGB histogram
+        # feature vector
         rgb_feature = np.concatenate(red_histogram, green_histogram, axis=None)
         rgb_feature = np.concatenate(rgb_feature, blue_histogram, axis=None)
         # assert(sizeof(rgb_feature) == 768)
 
         return hv_feature
 
+    # Determine which function to call depending on feature user has requested
     def get_feature(self, image):
-        # Determine type of histogram
         if "gray" in self.feature_type:
             print("Gray histogram selected with {} bins".format(self.bins))
             feature = self.get_l_feature(image=image)
         elif "hv" in self.feature_type:
+            print("HV histogram selected with {} bins".format(self.bins))
             feature = self.get_hv_feature(image=image)
-        else:
+        elif "rgb" in self.feature_type:
+            print("RGB histogram selected with {} bins".format(self.bins))
             feature = self.get_rgb_feature(image=image)
+        else:
+            print("Feature '{}' not valid".format(self.feature_type))
 
-        print()
-        print(feature[0])
-
-        # Normalize feature
-
-        # Return feature
         return feature
