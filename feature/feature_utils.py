@@ -4,6 +4,8 @@ from os import listdir, path, getcwd
 from feature.feature_defintions.Histogram import Histogram
 from feature.feature_tests.test_functions import *
 
+import numpy as np
+
 # Constants
 HISTOGRAM_BINS = 256
 
@@ -75,7 +77,7 @@ def get_feature_object(config):
 def index_create(config, feature):
     output_path = config['output']
     input_path = config['input']
-    assert(not path.isfile(output_path)), "{} exists".format(output_path)
+    # assert(not path.isfile(output_path)), "{} exists".format(output_path)
 
     with open(output_path, "w+") as f:
         cnt = 0

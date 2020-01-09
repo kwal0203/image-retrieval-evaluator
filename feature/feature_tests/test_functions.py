@@ -10,6 +10,6 @@ def test_config_dict(config_dict):
 
 def test_histogram_object(histogram_object):
     print("----- TEST HISTOGRAM OBJECT -----")
-    print("Histogram name: ", histogram_object.histogram_type)
+    print("Histogram name: ", histogram_object.feature_type)
     print("Histogram bins: ", histogram_object.bins)
     print("--- END TEST HISTOGRAM OBJECT ---")

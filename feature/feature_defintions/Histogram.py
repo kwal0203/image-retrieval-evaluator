@@ -1,27 +1,52 @@
 from feature.feature_defintions.Base import FeatureBase
+from skimage.color import rgb2gray, rgb2hsv
+
+import numpy as np
 
 
 class Histogram(FeatureBase):
     def __init__(self, bins, histogram_type):
+        super().__init__(histogram_type)
         self.bins = bins
-        self.histogram_type = histogram_type
 
     # 1 channel grayscale histogram feature
-    def get_l_feature(self):
-        print("{} feature not implemented ".format(self.histogram_type))
+    def get_l_feature(self, image):
+        # Convert image to gray-scale
+        image = rgb2gray(image)
+        image = np.uint8(image * 255)
+
+        # Create histogram for the only channel of size "bins"
+        gray_histogram = np.histogram(a=image, bins=range(0, self.bins))
+
+        # Normalize histogram
+        gray_histogram =
+
+        return gray_histogram
 
     # 2 channel Hue-Value histogram feature
-    def get_hv_feature(self):
-        print("{} feature not implemented ".format(self.histogram_type))
+    def get_hv_feature(self, image):
+        print("{} feature not implemented ".format(self.feature_type))
+        return 5
 
     # 3 channel Red-Green-Blue histogram feature
-    def get_rgb_feature(self):
-        print("{} feature not implemented ".format(self.histogram_type))
+    def get_rgb_feature(self, image):
+        print("{} feature not implemented ".format(self.feature_type))
+        return 5
 
     def get_feature(self, image):
         # Determine type of histogram
-        # Create histogram for each channel of size "bins"
-        # Concatenate channel histograms if necessary
-        # Normalize concatenated feature
+        if "gray" in self.feature_type:
+            print("Gray histogram selected with {} bins".format(self.bins))
+            feature = self.get_l_feature(image=image)
+        elif "hv" in self.feature_type:
+            feature = self.get_hv_feature(image=image)
+        else:
+            feature = self.get_rgb_feature(image=image)
+
+        print()
+        print(feature[0])
+
+        # Normalize feature
+
         # Return feature
-        return [1, 2, 3, 4, 5]
+        return feature

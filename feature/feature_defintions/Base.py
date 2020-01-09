@@ -1,10 +1,10 @@
-from abc import ABC, abstractmethod
+from abc import ABCMeta, abstractmethod
 
 
-class FeatureBase(ABC):
-    def __init__(self):
-        super().__init__()
+class FeatureBase(object, metaclass=ABCMeta):
+    def __init__(self, feature_type):
+        self.feature_type = feature_type
 
     @abstractmethod
-    def get_feature(self):
+    def get_feature(self, image):
         pass
