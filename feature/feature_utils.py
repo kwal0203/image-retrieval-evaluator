@@ -1,7 +1,10 @@
+import feature.feature_tests.test_functions
+
 from json import load
 from skimage import io
 from os import listdir, path, getcwd
 from feature.feature_defintions.Histogram import Histogram
+from feature.feature_tests.test_functions import *
 
 # Constants
 HISTOGRAM_BINS = 256
@@ -32,22 +35,6 @@ HISTOGRAM_BINS = 256
 # }
 
 
-def test_config_dict(config_dict):
-    print("----- TEST CONFIG DICT -----")
-    print("input:        ", config_dict['input'])
-    print("output:       ", config_dict['output'])
-    print("feature_name: ", config_dict['feature_name'])
-    print("feature_path: ", config_dict['feature_path'])
-    print("--- END TEST CONFIG DICT ---")
-
-
-def test_histogram_object(histogram_object):
-    print("----- TEST HISTOGRAM OBJECT -----")
-    print("Histogram name: ", histogram_object.histogram_type)
-    print("Histogram bins: ", histogram_object.bins)
-    print("--- END TEST HISTOGRAM OBJECT ---")
-
-
 # Parse config file
 def json_read():
     config_path = path.join(getcwd(), 'feature_params.json')
@@ -73,7 +60,7 @@ def json_read():
 
 
 # Instantiate object for requested feature
-def feature_object(config):
+def get_feature_object(config):
     feature_name = config['feature_name']
     feature_path = config['feature_path']
 
@@ -119,8 +106,8 @@ def feature_driver_run():
     test_config_dict(config)
 
     # Instantiate feature object
-    feature = feature_object(config)
-    test_histogram_object(feature)
+    feature_object = get_feature_object(config)
+    test_histogram_object(feature_object)
 
     # Apply get_feature() to each image
-    index_create(config, feature)
+    index_create(config, feature_object)
