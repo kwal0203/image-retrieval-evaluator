@@ -1,5 +1,3 @@
-import feature.feature_tests.test_functions
-
 from json import load
 from skimage import io
 from os import listdir, path, getcwd
