@@ -64,14 +64,14 @@ def get_feature_object(config):
 def index_create(config, feature):
     output_path = config['output']
     input_path = config['input']
-    # assert(not path.isfile(output_path)), "{} exists".format(output_path)
+    assert(not path.isfile(output_path)), "{} exists".format(output_path)
 
     with open(output_path, "w+") as f:
         cnt = 0
 
         for filename in listdir(input_path):
             # Filename without file extension used as name of feature in CSV
-            img_id = filename[:-4]
+            img_id = filename[:-5]
 
             # Calculate feature vector
             img = io.imread(input_path + filename)

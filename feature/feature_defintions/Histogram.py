@@ -13,15 +13,12 @@ class Histogram(FeatureBase):
     def get_l_feature(self, image):
         # Convert image to 8-bit gray-scale
         image = rgb2gray(image)
-        image = np.uint8(image * 255)
+        image = np.uint8(image * 255.0)
 
-        # Create histogram for the only channel of size "bins"
-        gray_histogram = np.histogram(a=image, bins=range(0, self.bins))
-
-        # Normalize histogram
+        # Create normalized histogram of size "bins"
         # are we using 64-bit floats here?
-        gray_histogram = gray_histogram[0] / 255.0
-        # assert(sizeof(gray_histogram) == 512)
+        gray_histogram = np.histogram(a=image, bins=self.bins, density=True)[0]
+        assert(gray_histogram.size == 256)
 
         return gray_histogram
 
@@ -31,42 +28,32 @@ class Histogram(FeatureBase):
         image = rgb2hsv(image)
         image = np.uint8(image * 255)
 
-        # Create histograms for Hue and Value channels of size "bins"
-        hue_histogram = np.histogram(a=image[0], bins=range(0, self.bins))
-        value_histogram = np.histogram(a=image[2], bins=range(0, self.bins))
-
-        # Normalize histograms
-        # are we using 64-bit floats here?
-        hue_histogram = hue_histogram[0] / 255.0
-        value_histogram = value_histogram[0] / 255.0
+        # Create normalized histograms for Hue and Value channels of size "bins"
+        hue_histogram = np.histogram(a=image[0], bins=self.bins, density=True)[0]
+        value_histogram = np.histogram(a=image[2], bins=self.bins, density=True)[0]
 
         # Concatenate Hue and Value histograms to get the HV histogram feature
         # vector
-        hv_feature = np.concatenate(hue_histogram, value_histogram, axis=None)
-        # assert(sizeof(hv_feature) == 512)
+        hv_histogram = np.concatenate((hue_histogram, value_histogram), axis=None)
+        assert(hv_histogram.size == 512), "Size is {}".format(hv_histogram.size)
 
-        return hv_feature
+        return hv_histogram
 
     # 3 channel Red-Green-Blue histogram feature
     def get_rgb_feature(self, image):
-        # Create histograms for Red, Green and Blue channels of size "bins"
-        red_histogram = np.histogram(a=image[0], bins=range(0, self.bins))
-        green_histogram = np.histogram(a=image[1], bins=range(0, self.bins))
-        blue_histogram = np.histogram(a=image[2], bins=range(0, self.bins))
-
-        # Normalize histograms
-        # are we using 64-bit floats here?
-        red_histogram = red_histogram[0] / 255.0
-        green_histogram = green_histogram[0] / 255.0
-        blue_histogram = blue_histogram[0] / 255.0
+        # Create normalized histograms for Red, Green and Blue channels of size
+        # "bins"
+        red_histogram = np.histogram(a=image[0], bins=self.bins, density=True)[0]
+        grn_histogram = np.histogram(a=image[1], bins=self.bins, density=True)[0]
+        blue_histogram = np.histogram(a=image[2], bins=self.bins, density=True)[0]
 
         # Concatenate Red, Green and Blue histograms to get the RGB histogram
         # feature vector
-        rgb_feature = np.concatenate(red_histogram, green_histogram, axis=None)
-        rgb_feature = np.concatenate(rgb_feature, blue_histogram, axis=None)
-        # assert(sizeof(rgb_feature) == 768)
+        rgb_histogram = np.concatenate((red_histogram, grn_histogram), axis=None)
+        rgb_feature = np.concatenate((rgb_histogram, blue_histogram), axis=None)
+        assert(rgb_feature.size == 768)
 
-        return hv_feature
+        return rgb_feature
 
     # Determine which function to call depending on feature user has requested
     def get_feature(self, image):
@@ -80,6 +67,7 @@ class Histogram(FeatureBase):
             print("RGB histogram selected with {} bins".format(self.bins))
             feature = self.get_rgb_feature(image=image)
         else:
+            feature = None
             print("Feature '{}' not valid".format(self.feature_type))
 
         return feature
