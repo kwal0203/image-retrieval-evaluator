@@ -34,7 +34,7 @@ def feature_json_read():
         input_name = config_file['input_name']
         output_path = config_file['output_path_base']
         output_name = config_file['output_name']
-        feature_path = config_file['feature_path_base']
+        feature_path = config_file['feature_path']
         feature_name = config_file['feature_name']
 
     config_dict = dict()
