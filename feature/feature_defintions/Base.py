@@ -25,9 +25,7 @@ class FeatureBase(object, metaclass=ABCMeta):
 
             for filename in listdir(input_path):
                 # Filename without file extension used as name of feature in CSV
-                # TODO: Calculate the number of characters after the dot rather
-                #       than hard-coding this value
-                img_id = filename[:-5]
+                img_id = filename.split('.')[0]
 
                 # Calculate feature vector
                 img = io.imread(input_path + filename)
