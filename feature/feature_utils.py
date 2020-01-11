@@ -1,13 +1,13 @@
 from json import load
-from skimage import io
-from os import listdir, path, getcwd
+from os import path, getcwd
 from feature.feature_defintions.Histogram import Histogram
 from feature.feature_tests.test_functions import *
 
-import numpy as np
-
 # TODO:
 #   Logging
+#   Timing script
+#   Output multiple CSV files for 1 run (i.e. models trained to different
+#   epochs)
 
 # Constants
 HISTOGRAM_BINS = 256
@@ -23,7 +23,7 @@ HISTOGRAM_BINS = 256
 #     "feature_path": "path/to/model/", (leave blank for histogram features)
 #     "feature_name": "name_of_feature"
 # }
-def json_read():
+def feature_json_read():
     config_path = path.join(getcwd(), 'feature_params.json')
     assert(path.isfile(config_path)), "{} does not exist".format(config_path)
     print("Config file path: ", config_path)
@@ -47,54 +47,27 @@ def json_read():
 
 
 # Instantiate object for requested feature
-def get_feature_object(config):
+def feature_object_create(config):
     feature_name = config['feature_name']
-    feature_path = config['feature_path']
 
     print(feature_name + " selected")
-    if "histogram" in feature_name:
-        _feature = Histogram(HISTOGRAM_BINS, feature_name)
+    if 'histogram' in feature_name:
+        _feature = Histogram(HISTOGRAM_BINS, config)
     else:
         _feature = None
 
     return _feature
 
 
-# Iterate through all images and write feature to CSV for each one
-def index_create(config, feature):
-    output_path = config['output']
-    input_path = config['input']
-    assert(not path.isfile(output_path)), "{} exists".format(output_path)
-
-    with open(output_path, "w+") as f:
-        cnt = 0
-
-        for filename in listdir(input_path):
-            # Filename without file extension used as name of feature in CSV
-            img_id = filename[:-5]
-
-            # Calculate feature vector
-            img = io.imread(input_path + filename)
-            feature_vector = feature.get_feature(img)
-            feature_vector = [str(f) for f in feature_vector]
-
-            # Turn feature into string and write it to CSV file
-            _feature = "{},{}\n".format(img_id, ",".join(feature_vector))
-            f.write(_feature)
-            cnt += 1
-            if cnt % 1 == 0:
-                print("Feature file: {}, idx: {}".format(img_id, cnt))
-
-
 # Feature index creation code entry point called from top level main function
 def feature_driver_run():
     # Read input JSON
-    config = json_read()
+    config = feature_json_read()
     test_config_dict(config)
 
     # Instantiate feature object
-    feature_object = get_feature_object(config)
+    feature_object = feature_object_create(config)
     test_histogram_object(feature_object)
 
     # Apply get_feature() to each image
-    index_create(config, feature_object)
+    feature_object.index_create(feature=feature_object)

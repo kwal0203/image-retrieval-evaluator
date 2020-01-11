@@ -5,8 +5,8 @@ from skimage.color import rgb2gray, rgb2hsv
 
 
 class Histogram(FeatureBase):
-    def __init__(self, bins, histogram_type):
-        super().__init__(histogram_type)
+    def __init__(self, bins, config):
+        super().__init__(config=config)
         self.bins = bins
 
     # 1 channel grayscale histogram feature
@@ -17,6 +17,8 @@ class Histogram(FeatureBase):
 
         # Create normalized histogram of size "bins"
         # are we using 64-bit floats here?
+        # Note: np.histogram() returns a tuple and the first element is the
+        # histogram
         gray_histogram = np.histogram(a=image, bins=self.bins, density=True)[0]
         assert(gray_histogram.size == 256)
 
@@ -29,6 +31,8 @@ class Histogram(FeatureBase):
         image = np.uint8(image * 255)
 
         # Create normalized histograms for Hue and Value channels of size "bins"
+        # Note: np.histogram() returns a tuple and the first element is the
+        # histogram
         hue_histogram = np.histogram(a=image[0], bins=self.bins, density=True)[0]
         value_histogram = np.histogram(a=image[2], bins=self.bins, density=True)[0]
 
@@ -43,6 +47,8 @@ class Histogram(FeatureBase):
     def get_rgb_feature(self, image):
         # Create normalized histograms for Red, Green and Blue channels of size
         # "bins"
+        # Note: np.histogram() returns a tuple and the first element is the
+        # histogram
         red_histogram = np.histogram(a=image[0], bins=self.bins, density=True)[0]
         grn_histogram = np.histogram(a=image[1], bins=self.bins, density=True)[0]
         blue_histogram = np.histogram(a=image[2], bins=self.bins, density=True)[0]
@@ -57,17 +63,17 @@ class Histogram(FeatureBase):
 
     # Determine which function to call depending on feature user has requested
     def get_feature(self, image):
-        if "gray" in self.feature_type:
+        if "gray" in self.feature_name:
             print("Gray histogram selected with {} bins".format(self.bins))
             feature = self.get_l_feature(image=image)
-        elif "hv" in self.feature_type:
+        elif "hv" in self.feature_name:
             print("HV histogram selected with {} bins".format(self.bins))
             feature = self.get_hv_feature(image=image)
-        elif "rgb" in self.feature_type:
+        elif "rgb" in self.feature_name:
             print("RGB histogram selected with {} bins".format(self.bins))
             feature = self.get_rgb_feature(image=image)
         else:
             feature = None
-            print("Feature '{}' not valid".format(self.feature_type))
+            print("Feature '{}' not valid".format(self.feature_name))
 
         return feature
