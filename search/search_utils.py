@@ -41,7 +41,7 @@ def search_driver_run():
     test_config_dict(config)
 
     # Instantiate search object
-    # search_object = search_object_create(CONFIG_LIMIT, CONFIG_METRIC)
+    search_object = search_object_create(5, 'euclidean')
     # test_search_object(search_object)
 
     # Create ranked lists and metrics
