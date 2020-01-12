@@ -64,13 +64,10 @@ class Histogram(FeatureBase):
     # Determine which function to call depending on feature user has requested
     def get_feature(self, image):
         if "gray" in self.feature_name:
-            print("Gray histogram selected with {} bins".format(self.bins))
             feature = self.get_l_feature(image=image)
         elif "hv" in self.feature_name:
-            print("HV histogram selected with {} bins".format(self.bins))
             feature = self.get_hv_feature(image=image)
         elif "rgb" in self.feature_name:
-            print("RGB histogram selected with {} bins".format(self.bins))
             feature = self.get_rgb_feature(image=image)
         else:
             feature = None

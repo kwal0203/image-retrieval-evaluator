@@ -13,7 +13,7 @@ from feature.feature_tests.test_functions import *
 HISTOGRAM_BINS = 256
 
 
-# Parse config JSON file. Config structure:
+# Parse feature config JSON file. Config structure:
 #
 # {
 #     "input_path_base": "path/to/input/data/",
@@ -26,7 +26,7 @@ HISTOGRAM_BINS = 256
 def feature_json_read():
     config_path = path.join(getcwd(), 'feature_params.json')
     assert(path.isfile(config_path)), "{} does not exist".format(config_path)
-    print("Config file path: ", config_path)
+    print("Feature config file path: ", config_path)
 
     with open(config_path) as f:
         config_file = load(f)

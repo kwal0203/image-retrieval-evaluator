@@ -18,7 +18,7 @@ class FeatureBase(object, metaclass=ABCMeta):
     def index_create(self, feature):
         output_path = self.output_path
         input_path = self.input_path
-        assert(not path.isfile(output_path)), "{} exists".format(output_path)
+        # assert(not path.isfile(output_path)), "{} exists".format(output_path)
 
         with open(output_path, "w+") as f:
             cnt = 0

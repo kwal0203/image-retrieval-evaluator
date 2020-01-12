@@ -1,6 +1,9 @@
 from search.searcher.Search import Search
 from search.search_tests.search_test_functions import *
 
+from os import path, getcwd
+from json import load
+
 # TODO:
 #   Logging
 #   Timing script
@@ -13,26 +16,35 @@ from search.search_tests.search_test_functions import *
 #   Sort euclidean distances
 #   Calculate ranking
 
-# Parse config JSON file. Config structure:
+# Parse search config JSON file. Config structure:
 #
 # {
 #     "input_path_base": "path/to/input/index/",
-#     "input_name": "name_of_index.csv",
-#     "output_path_base": "path/to/output/",
+#     "input_name": "index_name/",
+#     "output_path_base": "path/to/output/result/",
 #     "output_name": "name_of_result_file.txt",
-#     "feature_path": "path/to/model/", (leave blank for histogram features)
-#     "feature_name": "name_of_feature",
-#     "metric": "euclidean"
+#     "metric": "name_of_similarity_metric",
+#     "limit": "what does this do again"
 # }
-
-
 def search_json_read():
-    return 1
+    config_path = path.join(getcwd(), 'search_params.json')
+    assert(path.isfile(config_path)), "{} does not exist".format(config_path)
+    print("Search config file path: ", config_path)
 
+    with open(config_path) as f:
+        config_file = load(f)
+        input_path = config_file['input_path_base']
+        input_name = config_file['input_name']
+        output_path = config_file['output_path_base']
+        output_name = config_file['output_name']
+        metric = config_file['metric']
 
-# Instantiate object for requested similarity metric
-def search_object_create(limit, metric):
-    return Search(limit=limit, metric=metric)
+    config_dict = dict()
+    config_dict['input'] = input_path + input_name
+    config_dict['output'] = output_path + output_name
+    config_dict['similarity_metric'] = metric
+
+    return config_dict
 
 
 def search_driver_run():
@@ -41,8 +53,8 @@ def search_driver_run():
     test_config_dict(config)
 
     # Instantiate search object
-    search_object = search_object_create(5, 'euclidean')
+    search_object = Search(search_config=config)
     # test_search_object(search_object)
 
     # Create ranked lists and metrics
-    # search_object.results_create()
+    search_object.results_create()
