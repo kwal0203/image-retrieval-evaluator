@@ -26,6 +26,8 @@ from json import load
 #     "metric": "name_of_similarity_metric",
 #     "limit": "what does this do again"
 # }
+
+
 def search_json_read():
     config_path = path.join(getcwd(), 'search_params.json')
     assert(path.isfile(config_path)), "{} does not exist".format(config_path)

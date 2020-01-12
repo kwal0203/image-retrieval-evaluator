@@ -20,8 +20,8 @@ class Histogram(FeatureBase):
         # Note: np.histogram() returns a tuple and the first element is the
         # histogram
         gray_histogram = np.histogram(
-            a=image, bins=self.bins,
-            density=False, range=(0, self.bins))
+            a=image, bins=self.bins, range=(0, self.bins)
+        )
         gray_histogram = normalize(gray_histogram[0].reshape(1, -1)).flatten()
         assert(gray_histogram.size == 256)
         return gray_histogram

@@ -61,7 +61,7 @@ class Search:
                 # print("name: {}, IDX: {}".format(row[0], idx_count))
                 idx_count += 1
                 # if idx_count % 250 == 0:
-                if idx_count % 25 == 0:
+                if idx_count % 100 == 0:
                     # print("[INFO] - Reading row {}".format(idx_count))
                     print("[INFO] - Reading row {}".format(idx_count))
 
@@ -142,7 +142,7 @@ class Search:
             _map += average_precision
             map_count += 1
 
-            if map_count % 50 == 0:
+            if map_count % 100 == 0:
                 print("[INFO] - Query number: {}".format(map_count))
 
         _map /= map_count
