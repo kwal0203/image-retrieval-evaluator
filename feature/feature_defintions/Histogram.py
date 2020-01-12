@@ -2,6 +2,7 @@ import numpy as np
 
 from feature.feature_defintions.Base import FeatureBase
 from skimage.color import rgb2gray, rgb2hsv
+from sklearn.preprocessing import normalize
 
 
 class Histogram(FeatureBase):
@@ -12,23 +13,24 @@ class Histogram(FeatureBase):
     # 1 channel grayscale histogram feature
     def get_l_feature(self, image):
         # Convert image to 8-bit gray-scale
-        image = rgb2gray(image)
-        image = np.uint8(image * 255.0)
+        image = np.uint8(rgb2gray(image) * 255)
 
         # Create normalized histogram of size "bins"
         # are we using 64-bit floats here?
         # Note: np.histogram() returns a tuple and the first element is the
         # histogram
-        gray_histogram = np.histogram(a=image, bins=self.bins, density=True)[0]
+        gray_histogram = np.histogram(
+            a=image, bins=self.bins,
+            density=False, range=(0, self.bins))
+        gray_histogram = normalize(gray_histogram[0].reshape(1, -1)).flatten()
         assert(gray_histogram.size == 256)
-
         return gray_histogram
 
     # 2 channel Hue-Value histogram feature
     def get_hv_feature(self, image):
         # Convert image to 8-bit Hue-Saturation-Value format
         image = rgb2hsv(image)
-        image = np.uint8(image * 255)
+        # image = np.uint8(image * 255)
 
         # Create normalized histograms for Hue and Value channels of size "bins"
         # Note: np.histogram() returns a tuple and the first element is the

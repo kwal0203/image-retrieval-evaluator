@@ -1,6 +1,7 @@
 from abc import ABCMeta, abstractmethod
 from os import listdir, path
 from skimage import io
+import cv2
 
 
 class FeatureBase(object, metaclass=ABCMeta):
@@ -28,7 +29,8 @@ class FeatureBase(object, metaclass=ABCMeta):
                 img_id = filename.split('.')[0]
 
                 # Calculate feature vector
-                img = io.imread(input_path + filename)
+                # img = io.imread(input_path + filename)
+                img = cv2.imread(input_path + filename)
                 feature_vector = feature.get_feature(img)
                 feature_vector = [str(f) for f in feature_vector]
 
