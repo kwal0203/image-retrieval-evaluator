@@ -12,14 +12,25 @@ class AlexNetPre(FeatureBase):
     def __init__(self, config):
         super().__init__(config=config)
         self.transforms = self.transforms_create()
-        self.model = self.model_create(config['layer'])
+        self.model = self.model_create(config)
 
     # Comments...
-    def model_create(self, layer):
+    def model_create(self, config):
+        feature_path = config['feature_path']
+        feature_name = config['feature_name']
+        layer = config['layer']
+
+        # Load a model we trained or use ImageNet pretrained one otherwise
         model = models.alexnet(pretrained=True)
+        if 'load' in feature_name:
+            model.load_state_dict(torch.load(feature_path))
+
+        # Truncate network to level we want to get the feature from
         model.classifier = model.classifier[:layer]
         for param in model.parameters():
             param.requires_grad = False
+
+        # Send model to GPU and set to evaluation mode
         model = model.cuda().eval()
         return model
 
