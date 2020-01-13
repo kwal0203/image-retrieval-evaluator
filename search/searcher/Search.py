@@ -35,6 +35,7 @@ class Search:
     # Create list of features in numpy array format. Do this so we don't
     # have to read the CSV file for each query.
     def read_index(self):
+        print(self.index_path)
         with open(self.index_path) as f:
             # Get dimensions of input index file so we can allocate memory
             # (in self.features)
@@ -47,34 +48,13 @@ class Search:
             f.seek(0)
             self.features = np.zeros(shape=(self.num_files, feature_size))
 
-            print("Num files:    ", self.num_files)
-            print("Feature size: ", feature_size)
-
             idx_count = 0
             for idx, row in enumerate(reader):
-                # print("IDX:       ", idx)
-                # print("Row:       ", row[0:25])
-                # print("Row.shape: ", len(row[1:]))
-                # sys.exit()
                 self.features[idx] = np.array(row[1:])
                 self.names.append(row[0])
-                # print("name: {}, IDX: {}".format(row[0], idx_count))
                 idx_count += 1
-                # if idx_count % 250 == 0:
                 if idx_count % 100 == 0:
-                    # print("[INFO] - Reading row {}".format(idx_count))
                     print("[INFO] - Reading row {}".format(idx_count))
-
-            # print("Names[0]:      ", names[0])
-            # print("len(Names): ", len(names))
-            # print("Index: ", image_index[0][0:25])
-            # print("Names[2099]:      ", names[2099])
-            # print("len(Names): ", len(names))
-            # print("Index: ", image_index[2099][0:25])
-            # print("Index count:        ", idx_count)
-            # print("len(names):         ", len(names))
-            # print("image_index.shape:  ", image_index.shape)
-            # sys.exit()
 
     # A distance matrix is computed from the whole set of image features. Each
     # column is sorted and various metrics calculated on the resulting list.
