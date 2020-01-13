@@ -7,6 +7,7 @@ import torch
 
 
 # AlexNet model pre-trained on ImageNet dataset
+# NOTE: Report feature taken from model.classifier[1]
 class AlexNetPre(FeatureBase):
     def __init__(self, config):
         super().__init__(config=config)
