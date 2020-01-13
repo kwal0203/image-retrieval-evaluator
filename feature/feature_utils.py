@@ -1,6 +1,7 @@
 from json import load
 from os import path, getcwd
 from feature.feature_defintions.Histogram import Histogram
+from feature.feature_defintions.AlexNetPre import AlexNetPre
 from feature.feature_tests.test_functions import *
 
 # TODO:
@@ -36,12 +37,14 @@ def feature_json_read():
         output_name = config_file['output_name']
         feature_path = config_file['feature_path']
         feature_name = config_file['feature_name']
+        layer = config_file['layer']
 
     config_dict = dict()
     config_dict['input'] = input_path + input_name
     config_dict['output'] = output_path + output_name
     config_dict['feature_name'] = feature_name
     config_dict['feature_path'] = feature_path
+    config_dict['layer'] = layer
 
     return config_dict
 
@@ -53,7 +56,10 @@ def feature_object_create(config):
     print(feature_name + " selected")
     if 'histogram' in feature_name:
         _feature = Histogram(HISTOGRAM_BINS, config)
+    elif 'alex' in feature_name:
+        _feature = AlexNetPre(config)
     else:
+        print("No feature selected")
         _feature = None
 
     return _feature
@@ -67,7 +73,8 @@ def feature_driver_run():
 
     # Instantiate feature object
     feature_object = feature_object_create(config)
-    test_histogram_object(feature_object)
+    # test_histogram_object(feature_object)
 
     # Apply get_feature() to each image
     feature_object.index_create(feature=feature_object)
+
