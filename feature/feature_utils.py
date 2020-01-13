@@ -2,6 +2,7 @@ from json import load
 from os import path, getcwd
 from feature.feature_defintions.Histogram import Histogram
 from feature.feature_defintions.AlexNetPre import AlexNetPre
+from feature.feature_defintions.VGGNetPre import VGGNetPre
 from feature.feature_tests.test_functions import *
 
 # TODO:
@@ -58,6 +59,8 @@ def feature_object_create(config):
         _feature = Histogram(HISTOGRAM_BINS, config)
     elif 'alex' in feature_name:
         _feature = AlexNetPre(config)
+    elif 'vgg' in feature_name:
+        _feature = VGGNetPre(config)
     else:
         print("No feature selected")
         _feature = None
