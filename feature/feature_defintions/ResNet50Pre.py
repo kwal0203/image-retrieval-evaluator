@@ -6,9 +6,9 @@ from PIL import Image
 import torch
 
 
-# AlexNet model pre-trained on ImageNet dataset
-# NOTE: Report feature taken from model.classifier[1] (layer: 2)
-class AlexNetPre(FeatureBase):
+# ResNet50 model pre-trained on ImageNet dataset
+# NOTE: Report feature taken from model.avgpool (layer: 1)
+class ResNet50Pre(FeatureBase):
     def __init__(self, config):
         super().__init__(config=config)
         self.transforms = self.transforms_create()
@@ -16,8 +16,8 @@ class AlexNetPre(FeatureBase):
 
     # Comments...
     def model_create(self, layer):
-        model = models.alexnet(pretrained=True)
-        model.classifier = model.classifier[:layer]
+        model = models.resnet50(pretrained=True)
+        model = torch.nn.Sequential(*list(model.children())[:-layer])
         for param in model.parameters():
             param.requires_grad = False
         model = model.cuda().eval()
@@ -45,8 +45,8 @@ class AlexNetPre(FeatureBase):
     # Comments...
     def get_feature(self, image):
         image = self.image_convert(image)
-        result = self.model(image).cpu()
-        result = normalize(result).flatten()
-        assert(result.size == 4096)
+        result = self.model(image).cpu().squeeze().numpy()
+        result = normalize(result.reshape(1, -1)).flatten()
+        assert(result.size == 2048)
         return result
 
