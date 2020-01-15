@@ -7,6 +7,7 @@ from torch import nn
 import torch
 import sys
 
+
 # AlexNet model pre-trained on ImageNet dataset
 # NOTE: Report feature taken from model.classifier[1] (layer: 2)
 class AlexNet(FeatureBase):
