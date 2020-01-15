@@ -2,42 +2,43 @@ from feature.feature_defintions.Base import FeatureBase
 from sklearn.preprocessing import normalize
 from torchvision import models, transforms
 from PIL import Image
-from torch import nn
 
 import torch
-import sys
 
 
-# ResNet50 model pre-trained on ImageNet dataset
-# NOTE: Report feature taken from model.avgpool (layer: 1)
-class ResNet50Pre(FeatureBase):
+# VGGNet model pre-trained on ImageNet dataset
+# NOTE: Report feature taken from xxx (layer: xxx)
+class VGGNetPre(FeatureBase):
     def __init__(self, config):
         super().__init__(config=config)
         self.transforms = self.transforms_create()
-        self.model = self.model_create(config)
+        self.model = self.model_create(config['layer'])
 
     # Comments...
-    # Final layer must be called 'xxxx' in the incoming
+    # Final layer must be called 'xxx' in the incoming
     # state_dict
-    # Feature can only be taken from layers of the fully connected layer
+    # Feature can only be taken from xxx layer
     def model_create(self, config):
         feature_path = config['feature_path']
         feature_name = config['feature_name']
         layer = config['layer']
 
         # Load a model we trained or use ImageNet pretrained one otherwise
-        model = models.resnet50(pretrained=True)
+        model = models.vgg16(pretrained=True)
         if 'load' in feature_name:
             state_dict = torch.load(feature_path)
-            num_features = model.fc.in_features
-            num_outputs = len(state_dict['fc.weight'])
-            model.fc = nn.Linear(num_features, num_outputs)
-            model.load_state_dict(state_dict)
+            num_features = model.classifier[6].in_features # Check layer name
+            num_outputs = len(state_dict['classifier.6.weight'])
+            model.classifier[6] = nn.Linear(num_features, num_outputs)
+            model.load_state_dict(torch.load(feature_path))
 
-        model = torch.nn.Sequential(*list(model.children())[:-layer])
+        # Truncate network to level we want to get the feature from
+        model.classifier = model.classifier[:layer]
         for param in model.parameters():
             param.requires_grad = False
-        model = model.cuda().eval()
+
+        # Send model to GPU and set to evaluation mode
+        model.cuda().eval()
         return model
 
     # Comments...
@@ -62,8 +63,8 @@ class ResNet50Pre(FeatureBase):
     # Comments...
     def get_feature(self, image):
         image = self.image_convert(image)
-        result = self.model(image).cpu().squeeze().numpy()
-        result = normalize(result.reshape(1, -1)).flatten()
-        assert(result.size == 2048)
+        result = self.model(image).cpu()
+        result = normalize(result).flatten()
+        assert(result.size == 4096)
         return result
 
