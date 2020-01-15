@@ -1,7 +1,7 @@
 from json import load
 from os import path, getcwd
 from feature.feature_defintions.Histogram import Histogram
-from feature.feature_defintions.AlexNetPre import AlexNetPre
+from feature.feature_defintions.AlexNet import AlexNet
 from feature.feature_defintions.VGGNetPre import VGGNetPre
 from feature.feature_defintions.ResNet50Pre import ResNet50Pre
 from feature.feature_tests.test_functions import *
@@ -59,7 +59,7 @@ def feature_object_create(config):
     if 'histogram' in feature_name:
         _feature = Histogram(HISTOGRAM_BINS, config)
     elif 'alex' in feature_name:
-        _feature = AlexNetPre(config)
+        _feature = AlexNet(config)
     elif 'vgg' in feature_name:
         _feature = VGGNetPre(config)
     elif 'resnet50' in feature_name:
