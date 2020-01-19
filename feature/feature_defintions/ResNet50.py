@@ -10,7 +10,7 @@ import sys
 
 # ResNet50 model pre-trained on ImageNet dataset
 # NOTE: Report feature taken from model.avgpool (layer: 1)
-class ResNet50Pre(FeatureBase):
+class ResNet50(FeatureBase):
     def __init__(self, config):
         super().__init__(config=config)
         self.transforms = self.transforms_create()

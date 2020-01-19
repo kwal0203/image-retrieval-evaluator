@@ -8,7 +8,7 @@ import torch
 
 # VGGNet model pre-trained on ImageNet dataset
 # NOTE: Report feature taken from xxx (layer: xxx)
-class VGGNetPre(FeatureBase):
+class VGGNet(FeatureBase):
     def __init__(self, config):
         super().__init__(config=config)
         self.transforms = self.transforms_create()

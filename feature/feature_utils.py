@@ -2,8 +2,8 @@ from json import load
 from os import path, getcwd
 from feature.feature_defintions.Histogram import Histogram
 from feature.feature_defintions.AlexNet import AlexNet
-from feature.feature_defintions.VGGNetPre import VGGNetPre
-from feature.feature_defintions.ResNet50Pre import ResNet50Pre
+from feature.feature_defintions.VGGNet import VGGNet
+from feature.feature_defintions.ResNet50 import ResNet50
 from feature.feature_tests.test_functions import *
 
 # TODO:
