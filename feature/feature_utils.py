@@ -5,6 +5,7 @@ from feature.feature_defintions.AlexNet import AlexNet
 from feature.feature_defintions.VGGNet import VGGNet
 from feature.feature_defintions.ResNet50 import ResNet50
 from feature.feature_defintions.Colourization import Colourization
+from feature.feature_defintions.VAE import VAE
 from feature.feature_tests.test_functions import *
 
 # TODO:
@@ -67,6 +68,8 @@ def feature_object_create(config):
         _feature = ResNet50(config)
     elif 'colourization' in feature_name:
         _feature = Colourization(config)
+    elif 'vae' in feature_name:
+        _feature = VAE(config)
     else:
         print("No feature selected")
         _feature = None
