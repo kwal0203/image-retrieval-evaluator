@@ -6,6 +6,7 @@ from feature.feature_defintions.VGGNet import VGGNet
 from feature.feature_defintions.ResNet50 import ResNet50
 from feature.feature_defintions.Colourization import Colourization
 from feature.feature_defintions.VAE import VAE
+from feature.feature_defintions.MyModel import MyModel
 from feature.feature_tests.test_functions import *
 
 # TODO:
@@ -71,8 +72,8 @@ def feature_object_create(config):
     elif 'vae' in feature_name:
         _feature = VAE(config)
     else:
-        print("No feature selected")
-        _feature = None
+        _feature = MyModel(config)
+        sys.exit()
 
     return _feature
 
