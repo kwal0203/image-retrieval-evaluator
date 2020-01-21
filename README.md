@@ -1,20 +1,43 @@
 # image-retrieval-system
-Content based image retrieval system used for my undergraduate thesis in computer vision at [UNSW](https://www.engineering.unsw.edu.au/computer-science-engineering/). This tool was used to assess the effectiveness of image features for image retrieval.
+Content based image retrieval system used for my undergraduate thesis in computer vision at [UNSW](https://www.engineering.unsw.edu.au/computer-science-engineering/). This tool was used to assess the effectiveness of image features for satellite image retrieval.
+
 
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your
 local machine for development and testing purposes.
 
-### Prerequisites
+
+### Installation
+
+Make sure you have Python version 3.X and following the steps below to get up and running.
+
+To download the repository onto your system:
 
 ```
-1. git clone
-
-2. Create virtual environment
-
-3. pip install requirements
+git clone https://github.com/kwal0203/image-retrieval-system.git
 ```
+
+Move into the new directory:
+```
+cd image-retrieval-system
+```
+
+Create a virtual environment:
+```
+python3 -m venv env
+```
+
+Activate the virtual environment:
+```
+source env/bin/activate
+```
+
+Install dependencies:
+```
+pip3 install -m requirements.txt
+```
+
 
 ### Usage
 
