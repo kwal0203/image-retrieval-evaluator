@@ -55,10 +55,18 @@ Standard convolutional neural network based models (from the Pytorch model libra
 
 **Feature extraction configuration**
 
-This program extracts features from images by inputting images into a neural network and capturing the activation values at a given layer. The feature extraction step works according to the configuration file '''feature_params.json'''. The structure of the configuration file is as follows:
+This program extracts features from images by inputting images into a neural network and capturing the activation values at a given layer. The feature extraction step works according to a configuration file which must be created in the program root directory named '''feature_params.json'''. The structure of the configuration file needs to be as follows:
 
 ```
-
+{
+    "input_path_base": "/path/to/parent/directory/of/image/folder/",
+    "input_name": "/name/of/image/folder/",
+    "output_path_base": "/path/to/directory/to/store/created/image/index/",
+    "output_name": "name_of_image_index.csv",
+    "feature_path": "/path/to/pytorch/model/", (leave blank if using pre-trained PyTorch model)
+    "feature_name": "name_of_feature",
+    "layer": integer layer representing layer of network to get feature from
+}
 ```
 
 
