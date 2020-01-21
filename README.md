@@ -42,6 +42,30 @@ pip3 install -r requirements.txt
 ### Usage
 
 ```
+Basic workflow diagram
+1. Train a model (or use pre-trained PyTorch model)
+2. Configure feature extraction
+3. Configure feature evaluation
+4. Run feature extraction and/or feature evaluation
+```
+
+**Train a model**
+
+Standard convolutional neural network based models (from the Pytorch model library) can be used out of the box in this program or user defined models may be provided. If not using a standard pre-trained model, the first step to using the program is training your specific model. A path to the state dictionary of this model will be required in the configuration step.
+
+**Feature extraction configuration**
+
+This program extracts features from images by inputting images into a neural network and capturing the activation values at a given layer. The feature extraction step works according to the configuration file '''feature_params.json'''. The structure of the configuration file is as follows:
+
+```
+
+```
+
+
+This program inputs images into the specified model and extracts activation values from intermediate layers for use as an image feature.
+
+
+```
 1. Train a model
 
 2. Put config into feature_params.json to create index
