@@ -1,4 +1,4 @@
-# image-retrieval-system
+# Image Retrieval Evaluation Program
 Content based image retrieval system used for my undergraduate thesis in computer vision at [UNSW](https://www.engineering.unsw.edu.au/computer-science-engineering/). This tool was used to assess the effectiveness of image features for satellite image retrieval.
 
 
