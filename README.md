@@ -81,14 +81,35 @@ feature_path:     Path to a PyTorch state dictionary for model you have trained 
 layer:            The layer of the network you wish to obtain the image feature from.
 
 
+**Feature evaluation configuration**
+
+The image index create in the previous step can be used to evaluate the performance of image features for the image retrieval task. Similar to above, a configuration file must be created in the program root directory named '''search_params.json'''. The structure of the configuration file needs to be as follows:
+
 ```
-1. Train a model
+{
+    "input_path_base": "/path/to/parent/directory/of/image/index/",
+    "input_name": "name_of_image_index.csv",
+    "output_path_base": "/path/to/directory/to/store/image_retrieval/results/",
+    "output_name": "name_of_image_retrieval_results_file.txt",
+    "metric": "name of similarity metric"
+}
+```
+input_path_base:  Path to the directory containing the image index
 
-2. Put config into feature_params.json to create index
+input_name:       Name of image index file
 
-3. Put config into search_params.json to evaluate image retrieval performance
+output_path_base: Path to directory where you wish to store the image retrieval result file
 
-4. python main.py
+output_name:      Name of file containing image retrieval results
+
+metric:           Name of the similarity metric you wish to use.
+
+**Run program**
+
+Once the configuration files are setup and you are in the program root directory, run the program using the following command:
+
+```
+python3 main.py
 ```
 
 ## Authors
