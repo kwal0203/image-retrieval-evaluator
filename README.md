@@ -35,7 +35,7 @@ source env/bin/activate
 
 Install dependencies:
 ```
-pip3 install -m requirements.txt
+pip3 install -r requirements.txt
 ```
 
 
