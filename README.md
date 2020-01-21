@@ -68,17 +68,6 @@ This program extracts features from images by inputting images into a neural net
     "layer": integer layer representing layer of network to get feature from
 }
 ```
-input_path_base:  Path to the parent directory of the directory where the images are stored
-
-input_name:       Name of the directory that contains the images
-
-output_path_base: Path of the directory where you wish to store the create image index
-
-output_name:      Name of the image index (the index is created as a .csv file)
-
-feature_path:     Path to a PyTorch state dictionary for model you have trained (optional)
-
-layer:            The layer of the network you wish to obtain the image feature from.
 
 
 **Feature evaluation configuration**
@@ -94,15 +83,7 @@ The image index create in the previous step can be used to evaluate the performa
     "metric": "name of similarity metric"
 }
 ```
-input_path_base:  Path to the directory containing the image index
 
-input_name:       Name of image index file
-
-output_path_base: Path to directory where you wish to store the image retrieval result file
-
-output_name:      Name of file containing image retrieval results
-
-metric:           Name of the similarity metric you wish to use.
 
 **Run program**
 
