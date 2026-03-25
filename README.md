@@ -1,6 +1,12 @@
 # Image Retrieval Evaluation Program
 Content based image retrieval system used for my undergraduate thesis in computer vision at [UNSW](https://www.engineering.unsw.edu.au/computer-science-engineering/). This tool was used to assess the effectiveness of image features for satellite image retrieval.
 
+## Related Publication
+
+Results from this project were used in the following published paper:
+
+- [Self-Supervised Remote Sensing Image Retrieval](https://ieeexplore.ieee.org/abstract/document/9323294)
+
 
 ## Getting Started
 
